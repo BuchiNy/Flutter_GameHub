@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "235289023241",
+    "project_id": "car-hire-and-taxi-booking",
+    "storage_bucket": "car-hire-and-taxi-booking.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:235289023241:android:b897bdf227fcfc2e64b9d8",
+        "android_client_info": {
+          "package_name": "com.example.untitled"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "235289023241-k1l1748966b3bk68fcojd0gc9kn45slc.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBqcmUS2v9b9WBaoA4zxyZHCRaqIsoD0Tk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "235289023241-k1l1748966b3bk68fcojd0gc9kn45slc.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
