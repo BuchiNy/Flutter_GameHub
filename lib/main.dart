@@ -6,7 +6,12 @@ import 'MyHomePage.dart';
 void main() async{
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
+  await initialization(null);
   runApp(const MyApp());
+}
+
+Future initialization(BuildContext? context) async {
+  await Future.delayed(const Duration(seconds:3));
 }
 
 class MyApp extends StatelessWidget {

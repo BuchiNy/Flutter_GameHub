@@ -1,4 +1,5 @@
 import 'package:Flutter_GameHub/singleplayer.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -16,15 +17,17 @@ class homePage extends StatelessWidget {
     'Exit',
   ];
 
+   final Stream<QuerySnapshot> sSingleplayer = FirebaseFirestore.instance.collection("singlePlayer").snapshots();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: color.AppColor.homePageBackground,
+      extendBodyBehindAppBar: false,
       appBar: AppBar(
-        backgroundColor: color.AppColor.homePageBackground,
+        backgroundColor: Colors.transparent,
         automaticallyImplyLeading: true,
         centerTitle: true,
-        elevation: 1.0,
+        elevation: 0,
         title: Text('Game-Hub',
           style: GoogleFonts.getFont('Satisfy',
               textStyle: TextStyle(
@@ -98,192 +101,398 @@ class homePage extends StatelessWidget {
           ),
         ],
       ),
-      body: Column(
-        children: [
-          const SizedBox(height: 20,),
-          Row(
-            children: [
-              const SizedBox(width: 10, height: 20,),
-              Container(
-                padding: const EdgeInsets.only(top: 10, right: 10,left: 10, bottom: 10),
-                child: Text("Welcome to Game Hub",
-                style:GoogleFonts.getFont('Sarabun',
-                    textStyle: TextStyle(
-                      color: color.AppColor.homePageTitle,
-                      fontSize: 23,
-                      fontWeight: FontWeight.w600,
-                    )
-                ),
-                )
-              )
-            ],
-          ),
-          const SizedBox(height:50,),
-          Row(
-            children: [
-              const SizedBox(width: 10),
-              Container(
-                padding: const EdgeInsets.only(top: 10, right: 10,left: 10, bottom: 10),
-                child:  InkWell(
-                  onTap: () {
-                    Get.to(() => const SinglePlayer());
-                  },
-                  child: Text('Single Player games',
-                  style: GoogleFonts.getFont('Sarabun',
-                    textStyle: TextStyle(
-                      color: color.AppColor.homePageSubtitle,
-                      fontSize: 19,
-                      fontWeight: FontWeight.w600,
-                    )
+      body: SingleChildScrollView(
+       child: Column(
+          children: [
+            const SizedBox(height: 20,),
+            Row(
+              children: [
+                const SizedBox(width: 10, height: 20,),
+                Container(
+                  padding: const EdgeInsets.only(top: 10, right: 10,left: 10, bottom: 10),
+                  child: Text("Welcome to Game Hub",
+                  style:GoogleFonts.getFont('Sarabun',
+                      textStyle: TextStyle(
+                        color: color.AppColor.homePageTitle,
+                        fontSize: 23,
+                        fontWeight: FontWeight.w600,
+                      )
                   ),
-                  ),
-                ),
-              ),
-              InkWell
-                (onTap: () {
-                Get.to(() => const SinglePlayer());
-              },
-                  child: Icon(Icons.arrow_forward,
-                    color: color.AppColor.homePageSubtitle,
                   )
-              ),
-              const SizedBox(width: 10),
-              Container(
-                padding: const EdgeInsets.only(top: 10, right: 10,left: 10, bottom: 10),
-                child:  Text('Multiplayer games',
-                  style: GoogleFonts.getFont('Sarabun',
+                )
+              ],
+            ),
+            const SizedBox(height:50,),
+            Row(
+              children: [
+                const SizedBox(width: 10),
+                Container(
+                  padding: const EdgeInsets.only(top: 10, right: 10,left: 10, bottom: 10),
+                  child:  InkWell(
+                    onTap: () {
+                      Get.to(() => const SinglePlayer());
+                    },
+                    child: Text('Single Player games',
+                    style: GoogleFonts.getFont('Sarabun',
                       textStyle: TextStyle(
                         color: color.AppColor.homePageSubtitle,
                         fontSize: 19,
                         fontWeight: FontWeight.w600,
                       )
+                    ),
+                    ),
                   ),
                 ),
-              ),
-               Icon(Icons.arrow_forward,
-                color: color.AppColor.homePageSubtitle,),
-            ],
-          ),
-          const SizedBox(height:20,),
-          SizedBox(
-            height: 380,
-            width: MediaQuery.of(context).size.width,
-            child: GridView.count(
+                InkWell
+                  (onTap: () {
+                  Get.to(() => const SinglePlayer());
+                },
+                    child: Icon(Icons.arrow_forward,
+                      color: color.AppColor.homePageSubtitle,
+                    )
+                ),
+                const SizedBox(width: 10),
+                Container(
+                  padding: const EdgeInsets.only(top: 10, right: 10,left: 10, bottom: 10),
+                  child:  Text('Multiplayer games',
+                    style: GoogleFonts.getFont('Sarabun',
+                        textStyle: TextStyle(
+                          color: color.AppColor.homePageSubtitle,
+                          fontSize: 19,
+                          fontWeight: FontWeight.w600,
+                        )
+                    ),
+                  ),
+                ),
+                 Icon(Icons.arrow_forward,
+                  color: color.AppColor.homePageSubtitle,),
+              ],
+            ),
+            const SizedBox(height:20,),
+            Row(
+              children: [
+                const SizedBox(width: 10, height: 20,),
+                Container(
+                    padding: const EdgeInsets.only(top: 10, right: 10,left: 10, bottom: 10),
+                    child: Text("Genres",
+                      style:GoogleFonts.getFont('Sarabun',
+                          textStyle: TextStyle(
+                            color: color.AppColor.homePageTitle,
+                            fontSize: 23,
+                            fontWeight: FontWeight.w600,
+                          )
+                      ),
+                    )
+                )
+              ],
+            ),
+            Row(
+              children: [
+                SizedBox(
+                  height: 185,
+                  width: MediaQuery.of(context).size.width,
+                  child: GridView.count(
+                            primary: false,
+                            scrollDirection: Axis.horizontal,
+                            padding: const EdgeInsets.all(8),
+                            // scrollDirection: Axis.horizontal,
+                            mainAxisSpacing: 10,
+                            crossAxisSpacing: 10,
+                            crossAxisCount: 1,
+                            children: [
+                              Container(
+                                decoration: BoxDecoration(
+                                    borderRadius:BorderRadius.circular(35),
+                                    color: Colors.blue.shade200,
+                                    border: Border.all(
+                                        color: Colors.black,
+                                            width: 8
+                                        ),
+                                ),
+                                child:
+                                  Container(
+                                    padding: const EdgeInsets.only(left: 20,top: 20,right: 20),
+                                    child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                     Center(
+                                                child: Image.asset('assets/IMG-20220519-WA0004.jpg',
+                                                  width: 100, height: 100,),
+                                          ),
+                                        const SizedBox(height: 10,),
+                                        Center(
+                                            child: Text("Board Games",
+                                              style:GoogleFonts.getFont('Sarabun',
+                                                  textStyle: const TextStyle(
+                                                    fontSize: 18,
+                                                    fontWeight: FontWeight.w600,
+                                                  )
+                                              ),
+                                            )
+                                        )
+                                      ],
+                                    ),
+                                  ),
+                              ),
+                              Container(
+                                decoration: BoxDecoration(
+                                  borderRadius:BorderRadius.circular(35),
+                                  color: Colors.blue.shade200,
+                                  border: Border.all(
+                                      color: Colors.black,
+                                      width: 8
+                                  ),
+                                ),
+                                height: 15,
+                                child:
+                                Container(
+                                  padding: const EdgeInsets.only(left: 20,top: 20,right: 20),
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                       Center(
+                                                child: Image.asset('assets/1c716527afc780720743af8d17b5a1fd--icon-set-game-ui.jpg',
+                                                  width: 100, height: 100,),
+                                            ),
+                                      const SizedBox(height: 10,),
+                                      Center(
+                                          child: Text("Casual",
+                                              style:GoogleFonts.getFont('Sarabun',
+                                                  textStyle: const TextStyle(
+                                                    fontSize: 18,
+                                                    fontWeight: FontWeight.w600,
+                                                  )
+                                              ),
+                                            )
+                                      )
+                                    ],
+                                  ),
+                                ),
+                              ),
+                              Container(
+                                decoration: BoxDecoration(
+                                  borderRadius:BorderRadius.circular(35),
+                                  color: Colors.blue.shade200,
+                                  border: Border.all(
+                                      color: Colors.black,
+                                      width: 8
+                                  ),
+                                ),
+                                height: 15,
+                                child:
+                                Container(
+                                  padding: const EdgeInsets.only(left: 20,top: 20,right: 20),
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Center(
+                                                child: Image.asset('assets/1129996.jpeg',
+                                                width: 100, height: 100,)
+                                            ),
+                                      const SizedBox(height: 10,),
+                                      Center(
+                                            child: Text("Action",
+                                              style:GoogleFonts.getFont('Sarabun',
+                                                  textStyle: const TextStyle(
+                                                    fontSize: 18,
+                                                    fontWeight: FontWeight.w600,
+                                                  )
+                                              ),
+                                            )
+                                      )
+                                    ],
+                                  ),
+                                ),
+                              ),
+                              Container(
+                                decoration: BoxDecoration(
+                                  borderRadius:BorderRadius.circular(35),
+                                  color: Colors.blue.shade200,
+                                  border: Border.all(
+                                      color: Colors.black,
+                                      width: 8
+                                  ),
+                                ),
+                                height: 15,
+                                child:
+                                Container(
+                                  decoration: BoxDecoration(
+                                      borderRadius:BorderRadius.circular(35),
+                                  ),
+                                  padding: const EdgeInsets.only(left: 20,top: 20,right: 20),
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Center(
+                                                child: Image.asset('assets/1_mIjIjWIUc45MQjLDVkOC-w.png',
+                                                width: 100, height: 100,)
+                                            ),
+                                      const SizedBox(height: 10,),
+                                      Center(
+                                          child: Text("Arcade Games",
+                                              style:GoogleFonts.getFont('Sarabun',
+                                                  textStyle: const TextStyle(
+                                                    fontSize: 18,
+                                                    fontWeight: FontWeight.w600,
+                                                  )
+                                              ),
+                                            )
+                                      )
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ]
+                        ),
+                ),
+              ],
+            ),
+            const SizedBox(height:15,),
+            Row(
+              children: [
+                const SizedBox(width: 10, height: 20,),
+                Container(
+                    padding: const EdgeInsets.only(top: 10, right: 10,left: 10, bottom: 10),
+                    child: Text("Top Played",
+                      style:GoogleFonts.getFont('Sarabun',
+                          textStyle: TextStyle(
+                            color: color.AppColor.homePageTitle,
+                            fontSize: 23,
+                            fontWeight: FontWeight.w600,
+                          )
+                      ),
+                    )
+                )
+              ],
+            ),
+            Row(
+              children: [
+                SizedBox(
+                  height: 173,
+                  width: MediaQuery.of(context).size.width,
+                  child: GridView.count(
                       primary: false,
-                      padding: const EdgeInsets.all(10),
-                      // scrollDirection: Axis.horizontal,
+                      scrollDirection: Axis.horizontal,
+                      padding: const EdgeInsets.all(8),
                       mainAxisSpacing: 10,
                       crossAxisSpacing: 10,
-                      crossAxisCount: 2,
+                      crossAxisCount: 1,
                       children: [
                         Container(
-                          height: 15,
-                          color: Colors.white10,
-                          child:
-                            Container(
-                              color: Colors.white10,
-                              padding: const EdgeInsets.only(left: 20,top: 20,right: 20),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                               Center(
-                                          child: Image.asset('assets/IMG-20220519-WA0004.jpg',
-                                            width: 120, height: 120,),
-                                    ),
-                                  const SizedBox(height: 10,),
-                                  Center(
-                                      child: Text("Board Games",
-                                        style:GoogleFonts.getFont('Sarabun',
-                                            textStyle: const TextStyle(
-                                              fontSize: 18,
-                                              fontWeight: FontWeight.w600,
-                                            )
-                                        ),
-                                      )
-                                  )
-                                ],
+                          decoration: BoxDecoration(
+                              borderRadius:BorderRadius.circular(35),
+                              border: Border.all(
+                                color: Colors.black,
+                                width: 8
                               ),
-                            ),
-                        ),
-                        Container(
-                          height: 15,
-                          color: Colors.white10,
+                              color: Colors.blue.shade200
+                          ),
                           child:
                           Container(
-                            padding: const EdgeInsets.only(left: 20,top: 20,right: 20),
+                            padding: const EdgeInsets.only(left: 20,top: 60,right: 20),
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                 Center(
-                                          child: Image.asset('assets/1c716527afc780720743af8d17b5a1fd--icon-set-game-ui.jpg',
-                                            width: 120, height: 120,),
-                                      ),
-                                const SizedBox(height: 10,),
                                 Center(
-                                    child: Text("Casual",
-                                        style:GoogleFonts.getFont('Sarabun',
-                                            textStyle: const TextStyle(
-                                              fontSize: 18,
-                                              fontWeight: FontWeight.w600,
-                                            )
-                                        ),
-                                      )
+                                    child: Text("#Game 1",
+                                      style:GoogleFonts.getFont('Sarabun',
+                                          textStyle: const TextStyle(
+                                            fontSize: 18,
+                                            fontWeight: FontWeight.w600,
+                                          )
+                                      ),
+                                    )
                                 )
                               ],
                             ),
                           ),
                         ),
                         Container(
-                          height: 15,
-                          color: Colors.white10,
+                          decoration: BoxDecoration(
+                            borderRadius:BorderRadius.circular(35),
+                            color: Colors.blue.shade200,
+                            border: Border.all(
+                                color: Colors.black,
+                                width: 8
+                            ),
+                          ),
                           child:
                           Container(
-                            padding: const EdgeInsets.only(left: 20,top: 20,right: 20),
+                            padding: const EdgeInsets.only(left: 20,top: 60,right: 20),
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Center(
-                                          child: Image.asset('assets/1129996.jpeg',
-                                          width: 120, height: 120,)
+                                    child: Text("#Game 2",
+                                      style:GoogleFonts.getFont('Sarabun',
+                                          textStyle: const TextStyle(
+                                            fontSize: 18,
+                                            fontWeight: FontWeight.w600,
+                                          )
                                       ),
-                                const SizedBox(height: 10,),
-                                Center(
-                                      child: Text("Action",
-                                        style:GoogleFonts.getFont('Sarabun',
-                                            textStyle: const TextStyle(
-                                              fontSize: 18,
-                                              fontWeight: FontWeight.w600,
-                                            )
-                                        ),
-                                      )
+                                    )
                                 )
                               ],
                             ),
                           ),
                         ),
                         Container(
-                          height: 15,
-                          color: Colors.white10,
+                          decoration: BoxDecoration(
+                            borderRadius:BorderRadius.circular(35),
+                            color: Colors.blue.shade200,
+                            border: Border.all(
+                                color: Colors.black,
+                                width: 8
+                            ),
+                          ),
                           child:
                           Container(
-                            padding: const EdgeInsets.only(left: 20,top: 20,right: 20),
+                            padding: const EdgeInsets.only(left: 20,top: 60,right: 20),
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Center(
-                                          child: Image.asset('assets/1_mIjIjWIUc45MQjLDVkOC-w.png',
-                                          width: 120, height: 120,)
+                                    child: Text("#Game3",
+                                      style:GoogleFonts.getFont('Sarabun',
+                                          textStyle: const TextStyle(
+                                            fontSize: 18,
+                                            fontWeight: FontWeight.w600,
+                                          )
                                       ),
-                                const SizedBox(height: 10,),
+                                    )
+                                )
+                              ],
+                            ),
+                          ),
+                        ),
+                        Container(
+                          decoration: BoxDecoration(
+                            borderRadius:BorderRadius.circular(35),
+                            color: Colors.blue.shade200,
+                            border: Border.all(
+                                color: Colors.black,
+                                width: 8
+                            ),
+                          ),
+
+                          child:
+                          Container(
+                            decoration: BoxDecoration(
+                              borderRadius:BorderRadius.circular(35),
+                            ),
+                            padding: const EdgeInsets.only(left: 20,top: 60,right: 20),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
                                 Center(
-                                    child: Text("Arcade Games",
-                                        style:GoogleFonts.getFont('Sarabun',
-                                            textStyle: const TextStyle(
-                                              fontSize: 18,
-                                              fontWeight: FontWeight.w600,
-                                            )
-                                        ),
-                                      )
+                                    child: Text("#Games 4",
+                                      style:GoogleFonts.getFont('Sarabun',
+                                          textStyle: const TextStyle(
+                                            fontSize: 18,
+                                            fontWeight: FontWeight.w600,
+                                          )
+                                      ),
+                                    )
                                 )
                               ],
                             ),
@@ -291,8 +500,11 @@ class homePage extends StatelessWidget {
                         ),
                       ]
                   ),
-          )
-        ],
+                ),
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }

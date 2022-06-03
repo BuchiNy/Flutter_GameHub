@@ -74,8 +74,7 @@ class _SinglePlayerState extends State<SinglePlayer> {
                 ),
               )
               )
-              )
-                  .toList();
+              ).toList();
             },
             onSelected: (value){
               switch(value){
@@ -181,31 +180,37 @@ class _SinglePlayerState extends State<SinglePlayer> {
                           children: snapshot.data!.docs.map((DocumentSnapshot document){
                             Map<String, dynamic> data = document.data()! as Map<String, dynamic>;
                             return Card(
+                              elevation: 0,
+                              color: color.AppColor.homePageBackground,
                               child: Container(
-                                color: color.AppColor.homePageContainerTextBig,
-                                padding: const EdgeInsets.all(8),
+                                decoration: BoxDecoration(
+                                    borderRadius:BorderRadius.circular(35),
+                                  color: Colors.blue.shade100
+                                ),
+                                padding: const EdgeInsets.all(10),
                                 child: ListTile(
                                   isThreeLine: false,
                                   title: Text('${data['Name']}',
                                       style: GoogleFonts.getFont('Barlow Semi Condensed',
                                           textStyle: TextStyle(
-                                            fontSize: 18,
+                                            fontSize: 20,
                                             color: color.AppColor.homePageTitle,
-                                            fontWeight: FontWeight.w600,
+                                            fontWeight: FontWeight.w700,
                                           )
                                       ),
                                     ),
                                   subtitle: Row(
                                     children: [
+                                      const SizedBox(height: 10,),
                                       Icon(Icons.access_time_outlined,
                                       color: color.AppColor.homePageIcons,
-                                      size: 15,),
-                                      SizedBox(width: 5,),
+                                      size: 16,),
+                                      const SizedBox(width: 5,),
                                       Text('${data['last played'].toDate()}',
                                       style: GoogleFonts.getFont('Barlow Semi Condensed',
-                                      textStyle: TextStyle(
-                                        fontWeight: FontWeight.w500,
-                                        fontSize: 15
+                                      textStyle: const TextStyle(
+                                        fontWeight: FontWeight.w600,
+                                        fontSize: 16
                                       )),),
                                     ],
                                   ),
